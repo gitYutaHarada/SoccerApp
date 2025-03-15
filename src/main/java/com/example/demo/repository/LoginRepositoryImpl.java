@@ -15,7 +15,7 @@ public class LoginRepositoryImpl implements LoginRepository {
 	@Override
 	public boolean isLogin(UserDto userDto) {
 		
-		String isLoginSql = "SELECT COUNT(*) FROM users WHERE name = ? AND password = ?";
+		String isLoginSql = "SELECT COUNT(*) FROM users WHERE user_name = ? AND password = ?";
 		
 		int count = jdbcTemplate.queryForObject(isLoginSql, Integer.class, userDto.getUserName(), userDto.getPassword());
 		

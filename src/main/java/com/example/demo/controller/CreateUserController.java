@@ -30,6 +30,8 @@ public class CreateUserController {
 			return "my-page";	
 		}
 		
-		return "index";
+		model.addAttribute("msg", "名前が使用できません。他の名前を選んで下さい");
+		
+		return "create-user";
 	}
 }

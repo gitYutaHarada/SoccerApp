@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>管理者ログイン成功</title>
+</head>
+<body>
+	<p>管理者ログイン成功</p>
+	
+	<a th:href="@{/team-edit}">team編集</a></br>
+	<div th:if="${action == 'team'}">
+		<form action="/team-create" method="post" enctype="multipart/form-data">
+			<input type="text" name="teamName" required>
+			<input type="file" name="teamImage" required>
+		    <button type="submit">新しいチームの作成</button>
+		</form>
+		<div th:id="${teamList != null}">
+			<table>
+				<tr>
+					<th>team名</th><th>Team画像</th>
+				</tr>
+				<tr th:each="team : ${teamList}">
+					<td th:text="${team.teamName}"></td>
+					<td><img th:src="'data:' + ${team.teamImageType} + ';base64,' + ${team.teamImage}" alt="チーム画像" width="100" height="100"/></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<a th:href="@{/game-edit}">game編集</a></br>
+	<a th:href="@{/player-edit}">player編集</a>
+	
+</body>
+</html>

@@ -16,7 +16,7 @@ public class CreateUserRepositoryImpl implements CreateUserRepository{
 	@Override
 	public boolean isUserNameUnique(UserDto userDto) {
 		
-		String isUserNameUniqueSql = "SELECT COUNT(*) FROM users WHERE name = ?";
+		String isUserNameUniqueSql = "SELECT COUNT(*) FROM users WHERE user_name = ?";
 		
 		int count = jdbcTemplate.queryForObject(isUserNameUniqueSql, Integer.class, userDto.getUserName());
 		
@@ -30,7 +30,7 @@ public class CreateUserRepositoryImpl implements CreateUserRepository{
 	@Override
 	public boolean isCreateUser(UserDto userDto) {
 		
-		String createUserSql = "INSERT INTO users (name, password) VALUES(?, ?)";
+		String createUserSql = "INSERT INTO users (user_name, password, role) VALUES(?, ?, 'user')";
 		
 		int count = jdbcTemplate.update(createUserSql, userDto.getUserName(), userDto.getPassword());
 		

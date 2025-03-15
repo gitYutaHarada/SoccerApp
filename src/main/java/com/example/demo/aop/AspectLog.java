@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AspectLog {
 
-	@Before("execution(* com.example.demo.service.*.*(..))")
+	@Before("execution(* com.example.demo.*.*.*(..))")
     public void logBefore(JoinPoint joinPoint) {
         outputLog("メソッド開始", joinPoint);
     }
     
-    @AfterReturning("execution(* com.example.demo.service.*.*(..))")
+    @AfterReturning("execution(* com.example.demo.*.*.*(..))")
     public void logAfter(JoinPoint joinPoint) {
     	outputLog("メソッド終了", joinPoint);
     }
