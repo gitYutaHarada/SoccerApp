@@ -1,33 +1,105 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>管理者ログイン成功</title>
+	<meta charset="UTF-8">
+	<title>管理者ログイン成功</title>
 </head>
+
 <body>
 	<p>管理者ログイン成功</p>
-	
-	<a th:href="@{/team-edit}">team編集</a></br>
+
+	<a th:href="@{/team-edit}">Team Edit</a></br>
 	<div th:if="${action == 'team'}">
-		<form action="/team-create" method="post" enctype="multipart/form-data">
+		<form th:action="@{/team-create}" method="post" enctype="multipart/form-data">
 			<input type="text" name="teamName" required>
 			<input type="file" name="teamImage" required>
-		    <button type="submit">新しいチームの作成</button>
+			<button type="submit">Create New Team</button>
 		</form>
-		<div th:id="${teamList != null}">
+		<div th:if="${teamList != null}">
 			<table>
 				<tr>
-					<th>team名</th><th>Team画像</th>
+					<th>Team Name</th>
+					<th>Team Image</th>
 				</tr>
 				<tr th:each="team : ${teamList}">
 					<td th:text="${team.teamName}"></td>
-					<td><img th:src="'data:' + ${team.teamImageType} + ';base64,' + ${team.teamImage}" alt="チーム画像" width="100" height="100"/></td>
+					<td><img th:src="'data:' + ${team.teamImageType} + ';base64,' + ${team.teamImage}" alt="チーム画像"
+							width="100" height="100" /></td>
 				</tr>
 			</table>
 		</div>
 	</div>
-	<a th:href="@{/game-edit}">game編集</a></br>
-	<a th:href="@{/player-edit}">player編集</a>
-	
+
+	<a th:href="@{/game-edit}">game Edit</a></br>
+	<div th:if="${action == 'game'}">
+		<div th:if="${insertGameMsg != null}">
+			<p th:text="${insertGameMsg}"></p>
+		</div>
+
+		<form th:action="@{/game-create}" method="post">
+			<label for="homeTeamName">Home Team Name:</label>
+			<input type="text" name="homeTeamName" required>
+
+			<label for="awayTeam">Away Team Name:</label>
+			<input type="text" name="awayTeamName" required><br>
+
+			<label for="gameTime">Game Time:</label>
+			<input type="datetime-local" name="gameTime" requirerm><br>
+
+			<label>Score</label>
+			<input type="number" name="homeScore" min="0" required>
+			<span>-</span>
+			<input type="number" name="awayScore" min="0" required>
+
+			<button type="submit">Create Game</button>
+			<form>
+	</div>
+	<a th:href="@{/player-edit}">player Edit</a>
+	<div th:if="${action =='player'}">
+		<div th:if="${msg != null}">
+			<p th:text="${msg}"></p>
+		</div>
+		<div th:if="${teamList != null}">
+			<table>
+				<tr>
+					<th>Team Name</th><th>Select Button</th>
+				</tr>
+				<tr th:each="team : ${teamList}">
+					<td th:text="${team.teamName}"></td>
+					<td>
+						<form th:action="@{/select-team}" method="post">
+							<input type="hidden" name="selectTeam" th:value="${team.teamName}">
+							<input type="submit" value="Select">
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div th:if="${playerList != null}">
+			<p th:text="${selectTeam}"></p>
+			<div th:if="${addPlayerMsg != null}">
+				<p th:text="${addPlayerMsg}"></p>
+			</div>
+			<form th:action="@{/create-player}" method="post">
+				<label for="playerName">選手登録する選手名</label>
+				<input type="text" name="playerName">
+				<input type="submit" value="選手登録">
+
+				<input type="hidden" name="teamId" th:value="${selectTeamId}">
+				<input type="hidden" name="selectTeamName" th:value="${selectTeam}">
+			</form>
+			<table>
+				<tr>
+					<th>Player Name</th>
+				</tr>
+				<tr th:each="player : ${playerList}">
+					<td th:text="${player.playerName}"></td>
+				</tr>
+			</table>
+			
+		</div>
+	</div>
 </body>
+
 </html>
