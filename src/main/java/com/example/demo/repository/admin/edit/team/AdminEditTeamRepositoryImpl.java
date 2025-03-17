@@ -66,12 +66,32 @@ public class AdminEditTeamRepositoryImpl implements AdminEditTeamRepository {
 		
 		List<Integer> idList = jdbcTemplate.queryForList(findIdByTeamNameSql, Integer.class, teamName);
 		
+		//IDが存在する
 		if(idList.size() == 1) 
 			return idList.get(0);
+		//IDが存在しないとき０
 		else if(idList.isEmpty()) 
 			return 0;
+		//IDが複数ある時-1
 		else 
 			return -1;
 		
+	}
+
+	@Override
+	public String findTeamById(int teamId) {
+		String findTeamByIdSql = "SELECT team_name FROM teams WHERE team_id = ?";
+		
+		List<String> teamNameList = jdbcTemplate.queryForList(findTeamByIdSql, String.class, teamId);
+		
+		//IDが存在する
+		if(teamNameList.size() == 1) 
+			return teamNameList.get(0);
+		//IDが存在しないとき０
+		else if(teamNameList.isEmpty()) 
+			return "miss";
+		//IDが複数ある時-1
+		else 
+			return "miss";
 	}
 }

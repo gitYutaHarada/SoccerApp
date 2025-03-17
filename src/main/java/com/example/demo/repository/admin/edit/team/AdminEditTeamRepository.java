@@ -12,4 +12,6 @@ public interface AdminEditTeamRepository {
 	void insertTeam(TeamDto teamDto);
 	
 	public int findTeamIdByName(String teamName);
+	
+	public String findTeamById(int teamId);
 }

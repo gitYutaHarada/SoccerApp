@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:if="${selectTeamMsg != null}">
+		<div th:if="${session.teamList != null}">
+			<table>
+				<tr>
+					<th>チーム</th><th>選択する</th>
+				</tr>
+				<tr th:each="team : ${session.teamList}">
+					<td th:text="${team.teamName}"></td>
+					<td>
+						<form th:action="@{/select-team-board}" method="post">
+							<input type="submit" value="選択する">
+							<input type="hidden" name="teamName" th:value="${team.teamName}">
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>	
+</body>
+</html>

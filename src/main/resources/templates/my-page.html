@@ -5,10 +5,31 @@
 <title>マイページ</title>
 </head>
 <body>
-	<div th:if="${msg != null}">
-		<p th:text="${msg}"></p>
+	<p><span th:text="${session.userDto.userName}"></span>さんこんにちは。</p>	
+	<div th:if="${session.userDto.favoriteTeamName != null}">
+		<p>今のお気に入りのチームは<span th:text="${session.userDto.favoriteTeamName}"></span>です</p>
 	</div>
-	<p>お気に入りチームを決めてみる</p>
+	<p>お気に入りチームを選択</p>
+	<div th:if="${favoriteMsg != null}">
+		<p th:text="${favoriteMsg}"></p>
+	</div>
+	<div th:if="${session.teamList != null}">
+		<table>
+			<tr>
+				<th>チーム</th><th>選択する</th>
+			</tr>
+			<tr th:each="team : ${session.teamList}">
+				<td th:text="${team.teamName}"></td>
+				<td>
+					<form th:action="@{/select-favorite}" method="post">
+						<input type="submit" value="選択する">
+						<input type="hidden" name="teamName" th:value="${team.teamName}">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
 	
+	<a th:href="@{/game-board}">コメントを見る</a>
 </body>
 </html>

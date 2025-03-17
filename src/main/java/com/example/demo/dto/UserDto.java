@@ -6,6 +6,7 @@ import lombok.Data;
 public class UserDto {
 	
 	private String userName;
+	private int userId;
 	private String favoriteTeamName;
 	
 }
