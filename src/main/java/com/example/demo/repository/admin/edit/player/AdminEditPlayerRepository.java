@@ -14,4 +14,6 @@ public interface AdminEditPlayerRepository {
 	public int countPlayer(PlayerDto playerDto);
 	
 	public int findPlayerId(PlayerDto playerDto);
+	
+	public String findPlayerNameById(int id);
 }

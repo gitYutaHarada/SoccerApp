@@ -43,4 +43,21 @@ public class GameBoardRepositoryImpl implements GameBoardRepository {
 		return gameDtoList;
 	}
 
+	@Override
+	public String findTeamNameByGameId(int gameId, String homeOrAway) {
+		
+		String homeOrAwayId = "";
+		if("home".equals(homeOrAway)) {
+			homeOrAwayId = "home_team_id";
+
+		}else if("away".equals(homeOrAway)) {
+			homeOrAwayId = "away_tean_id";
+		}
+		String findTeamNameByGameIdSql = "SELECT " + homeOrAwayId + " FROM games WHERE game_id = ?";
+		int teamId = jdbcTemplate.queryForObject(findTeamNameByGameIdSql, 
+												 Integer.class,
+												 gameId);
+		return teamRepository.findTeamById(teamId);
+	}
+
 }

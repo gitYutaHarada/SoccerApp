@@ -91,5 +91,15 @@ public class AdminEditPlayerRepositoryImpl implements AdminEditPlayerRepository 
 		else
 			return -1;
 	}
+	
+
+	@Override
+	public String findPlayerNameById(int id) {
+		String findPlayerNameByIdSql = "SELECT player_name FROM players WHERE player_id = ?";
+		
+		return jdbcTemplate.queryForObject(findPlayerNameByIdSql, String.class, id);
+	}
+	
+	
 
 }

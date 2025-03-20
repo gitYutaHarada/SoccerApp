@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
+	<div th:if="${session.gameDtoList != null}">
+		<table>
+			<tr>
+				<th>ホームチーム</th>
+				<th>アウェイチーム</th>
+				<th>日時</th>
+				<th>スコア</th>
+			</tr>
+			<tr th:each="game : ${session.gameDtoList}">
+				<div th:if="${game.gameId == gameId}">
+					<td th:text="${game.homeTeamName}"></td>
+					<td th:text="${game.awayTeamName}"></td>
+					<td th:text="${game.gameTime}"></td>
+					<td><span th:text="${game.homeScore}"></span>-<span th:text="${game.awayScore}"></span></td>
+				</div>
+			</tr>
+		</table>
+
+	</div>
 	<table>
 		<tr>
-			<th>コメント</th><th>ユーザ名</th><th>投稿時間</th><th>likes</th>
+			<th>コメント</th>
+			<th>ユーザ名</th>
+			<th>投稿時間</th>
+			<th>likes</th>
 		</tr>
 		<tr th:each="comment : ${session.commentsList}">
 			<div th:if="${comment.gameId == gameId}">
-				<td th:text="${comment.commentContent}"></td>	
-				<td th:text="${comment.userName}"></td>				
-				<td th:text="${comment.createdAt}"></td>				
+				<td th:text="${comment.commentContent}"></td>
+				<td th:text="${comment.userName}"></td>
+				<td th:text="${comment.createdAt}"></td>
 				<td>
 					<form th:action="@{/add-like}" method="post">
 						<input type="submit" value="❤">
@@ -25,13 +49,29 @@
 			</div>
 		</tr>
 	</table>
-	
+	<div th:if="${EmptyMsg != null}">
+		<p th:text="${EmptyMsg}"></p>
+	</div>
 	<p>この試合についてコメントを追加</p>
 	<form th:action="@{/add-comment}" method="post">
-		<textarea name="commentContent" placeholder="コメントを入力..." rows="4"></textarea>
+		<textarea name="commentContent" placeholder="コメントを入力..." rows="4" required></textarea>
 		<button type="submit">コメントを追加</button>
 		<input type="hidden" name="gameId" th:value="${gameId}">
 	</form>
 	
+	<table>
+		<tr>
+			<th>選手名</th>
+			<th>平均評価</th>
+		</tr>
+		<tr th:each=" rating : ${playerRatingAvgDtoList}">
+			<div th:if="${rating.gameId == gameId}">
+				<td th:text="${rating.playerName}"></td>
+				<td th:text="${rating.ratingAvg}"></td>
+			</div>
+		</tr>
+	</table>
+
 </body>
+
 </html>

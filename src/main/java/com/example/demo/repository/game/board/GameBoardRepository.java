@@ -7,4 +7,6 @@ import com.example.demo.dto.GameDto;
 public interface GameBoardRepository {
 
 	List<GameDto> setAllGameDto();
+	
+	String findTeamNameByGameId(int gameId, String homeOrAway);
 }

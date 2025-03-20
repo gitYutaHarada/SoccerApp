@@ -1,7 +1,5 @@
 package com.example.demo.controller.game.board;
 
-import java.util.List;
-
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.dto.GameDto;
 import com.example.demo.service.game.board.GameBoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,8 +29,7 @@ public class GameBoardController {
 								 HttpSession session,
 								 Model model) {
 		
-		List<GameDto> gameDtoList = service.setAllGameDto();
-		session.setAttribute("gameDtoList", gameDtoList);
+		session.setAttribute("gameDtoList", service.setAllGameDto());
 		model.addAttribute("selectTeam", teamName);
 		model.addAttribute("action", "gameBoard");
 		
