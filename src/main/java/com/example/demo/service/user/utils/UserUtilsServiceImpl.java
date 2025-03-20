@@ -17,5 +17,11 @@ public class UserUtilsServiceImpl implements UserUtilsService {
 		
 		return repository.findUserIdByUserName(userName);
 	}
+
+	@Override
+	public String findUserNameByUserId(int userId) {
+		
+		return repository.findUserNameByUserId(userId);
+	}
 	
 }

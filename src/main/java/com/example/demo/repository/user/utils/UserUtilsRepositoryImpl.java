@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.repository.admin.edit.team.AdminEditTeamRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -14,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 public class UserUtilsRepositoryImpl implements UserUtilsRepository {
 
 	private final JdbcTemplate jdbcTemplate;
-	private final AdminEditTeamRepository teamRepository;
 
 	@Override
 	public int findUserIdByUserName(String userName) {
@@ -30,6 +27,22 @@ public class UserUtilsRepositoryImpl implements UserUtilsRepository {
 		}
 
 		return userIdList.get(0);
+	}
+
+	@Override
+	public String findUserNameByUserId(int userId) {
+		
+		String findUserNameByUserIdSql = "SELECT user_name FROM users WHERE user_id = ?";
+
+		List<String> userNameList = jdbcTemplate.queryForList(findUserNameByUserIdSql,
+				String.class,
+				userId);
+
+		if (userNameList.isEmpty() || userNameList.size() != 1) {
+			return "miss";
+		}
+
+		return userNameList.get(0);
 	}
 
 

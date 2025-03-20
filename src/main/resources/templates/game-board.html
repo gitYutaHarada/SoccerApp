@@ -6,6 +6,7 @@
 </head>
 <body>
 	<div th:if="${selectTeamMsg != null}">
+		<p th:text="${selectTeamMsg}"></p>
 		<div th:if="${session.teamList != null}">
 			<table>
 				<tr>
@@ -23,5 +24,27 @@
 			</table>
 		</div>
 	</div>	
+	<div th:if="${ action == 'gameBoard'}">
+		<table>
+			<tr>
+				<th>ホームチーム</th><th>アウェイチーム</th><th>日時</th><th>スコア</th><th>コメントを見る</th>
+			</tr>
+			<tr th:each="game : ${session.gameDtoList}">
+				<div th:if="${game.homeTeamName == selectTeam}">
+					<td th:text="${game.homeTeamName}"></td>			
+					<td th:text="${game.awayTeamName}"></td>			
+					<td th:text="${game.gameTime}"></td>			
+					<td><span th:text="${game.homeScore}"></span>-<span th:text="${game.awayScore}"></span></td>
+					<td>
+						<form th:action="@{/select-game}" method="post">
+							<button type="submit">この試合のコメントを見る</button>
+							<input type="hidden" name="gameId" th:value="${game.gameId}">
+						</form>
+					</td>			
+				</div>
+			</tr>
+		</table>
+		
+	</div>
 </body>
 </html>
