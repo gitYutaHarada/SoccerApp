@@ -2,17 +2,18 @@ package com.example.demo.controller.game.comments;
 
 import java.io.IOException;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.dto.UserDto;
 import com.example.demo.service.game.board.GameBoardService;
 import com.example.demo.service.game.comments.GameCommentsService;
 import com.example.demo.service.game.rating.GameRatingService;
+import com.example.demo.session.CommentsListSession;
+import com.example.demo.session.GameListSession;
+import com.example.demo.session.PlayerRatingAvgListSession;
+import com.example.demo.session.UserSession;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,38 +21,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class gameCommentsController {
 
+	private final UserSession userSession;
+	private final GameListSession gameListSession;
+	private final CommentsListSession commentsListSession;
+	private final PlayerRatingAvgListSession playerRatingAvgListSession;
+	
 	private final GameCommentsService commentService;
 	private final GameBoardService boardService;
 	private final GameRatingService ratingService;
 
 	@PostMapping("/select-game")
 	public String selectGame(@RequestParam int gameId,
-							 HttpSession session,
 							 Model model) {
-
 		
-		session.setAttribute("gameDtoList", boardService.setAllGameDto());
-		session.setAttribute("commentsList", commentService.getCommentsDtoList());
-		
-		model.addAttribute("playerRatingAvgDtoList", ratingService.getGamePlayerRatingAvg());
-		System.out.println(boardService.setAllGameDto());
-		System.out.println(commentService.getCommentsDtoList());
-		System.out.println(ratingService.getGamePlayerRatingAvg());
+		gameListSession.setGameList(boardService.setAllGameDto());
+		commentsListSession.setCommentList(commentService.getCommentsDtoList());
+		playerRatingAvgListSession.setPlaerRagingAvgList(ratingService.getGamePlayerRatingAvgDtoList());
 		model.addAttribute("gameId", gameId);
-
+	
 		return "game-comments";
 	}
 
 	@PostMapping("/add-comment")
 	public String addComment(@RequestParam String commentContent,
 						   	 @RequestParam int gameId,
-							 HttpSession session,
 							 Model model) {
-		commentService.addComment(((UserDto) session.getAttribute("userDto")).getUserId(),
-							gameId,
-							commentContent);
-		session.setAttribute("gameDtoList", boardService.setAllGameDto());
-		session.setAttribute("commentsList", commentService.getCommentsDtoList());
+		
+		commentService.addComment(userSession.getUserId(), gameId, commentContent);
 		model.addAttribute("gameId", gameId);
 
 		return "game-comments";
@@ -61,13 +57,12 @@ public class gameCommentsController {
 	@PostMapping("/add-like")
 	public String addLike(@RequestParam int gameId,
 						  @RequestParam int commentId,
-						  HttpSession session,
 						  Model model) throws IOException {
 
-		commentService.isAddLike(((UserDto) session.getAttribute("userDto")).getUserId(), commentId);
-		session.setAttribute("gameDtoList", boardService.setAllGameDto());
-		session.setAttribute("commentsList", commentService.getCommentsDtoList());
+		commentService.isAddLike(userSession.getUserId(), commentId);
+		commentsListSession.setCommentList(commentService.getCommentsDtoList());
 		model.addAttribute("gameId", gameId);
+		
 		return "game-comments";
 	}
 }

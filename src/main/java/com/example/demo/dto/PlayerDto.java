@@ -7,5 +7,6 @@ public class PlayerDto {
 
 	private int teamId;
 	private String playerName;
+	private int playerNum;
 	
 }

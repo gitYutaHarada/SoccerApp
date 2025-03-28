@@ -21,9 +21,9 @@ public class GameRatingRepositoryImpl implements GameRatingRepository {
 	private final AdminEditPlayerRepository playerRepsitory;
 
 	@Override
-	public List<PlayerRatingAvgDto> getGamePlayerRatingAvg() {
+	public List<PlayerRatingAvgDto> getGamePlayerRatingAvgDtoList() {
 		
-		String getGamePlayerRatingAvgSql = "SELECT * FROM average_ratings";
+		String getGamePlayerRatingAvgSql = "SELECT * FROM player_game_ratings_avg";
 		List<Map<String, Object>> ratingAvgList = jdbcTemplate.queryForList(getGamePlayerRatingAvgSql);
 		List<PlayerRatingAvgDto> result = new ArrayList<>();
 		
@@ -34,7 +34,7 @@ public class GameRatingRepositoryImpl implements GameRatingRepository {
 			ratingAvgDto.setRatingAvg(((BigDecimal)ratingAvg.get("average_rating")).doubleValue());
 			result.add(ratingAvgDto);
 		}
-		
+		System.out.println(result);
 		return result;
 	}
 	

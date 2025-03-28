@@ -6,5 +6,5 @@ import com.example.demo.dto.PlayerRatingAvgDto;
 
 public interface GameRatingRepository {
 
-	List<PlayerRatingAvgDto> getGamePlayerRatingAvg();
+	List<PlayerRatingAvgDto> getGamePlayerRatingAvgDtoList();
 }

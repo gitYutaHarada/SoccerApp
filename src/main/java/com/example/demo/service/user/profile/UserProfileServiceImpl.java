@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.repository.user.profile.UserProfileRepository;
+import com.example.demo.session.UserSession;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,9 +15,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private final UserProfileRepository repository;
 	
 	@Override
-	public String addFavoriteTeam(String teamName, UserDto userDto) {
+	public String addFavoriteTeam(String teamName, UserSession userSession) {
 		
-		return repository.addFavoriteTeam(teamName,userDto);
+		return repository.addFavoriteTeam(teamName,userSession);
 	}
 
 	@Override

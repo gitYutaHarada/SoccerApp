@@ -45,7 +45,7 @@
 			<input type="text" name="awayTeamName" required><br>
 
 			<label for="gameTime">Game Time:</label>
-			<input type="datetime-local" name="gameTime" requirerm><br>
+			<input type="datetime-local" name="gameTime" required><br>
 
 			<label>Score</label>
 			<input type="number" name="homeScore" min="0" required>
@@ -53,7 +53,7 @@
 			<input type="number" name="awayScore" min="0" required>
 
 			<button type="submit">Create Game</button>
-			<form>
+		</form>
 	</div>
 	<a th:href="@{/player-edit}">player Edit</a>
 	<div th:if="${action =='player'}">
@@ -69,7 +69,7 @@
 					<td th:text="${team.teamName}"></td>
 					<td>
 						<form th:action="@{/select-team}" method="post">
-							<input type="hidden" name="selectTeam" th:value="${team.teamName}">
+							<input type="hidden" name="teamName" th:value="${team.teamName}">
 							<input type="submit" value="Select">
 						</form>
 					</td>
@@ -77,24 +77,30 @@
 			</table>
 		</div>
 		<div th:if="${playerList != null}">
-			<p th:text="${selectTeam}"></p>
+			<p th:text="${teamName}"></p>
 			<div th:if="${addPlayerMsg != null}">
 				<p th:text="${addPlayerMsg}"></p>
 			</div>
 			<form th:action="@{/create-player}" method="post">
 				<label for="playerName">選手登録する選手名</label>
-				<input type="text" name="playerName">
+				<input type="text" name="playerName" required>
+				
+				<label for="playerNum">選手番号</label>
+				<input type="number" name="playerNum" required>
+				
 				<input type="submit" value="選手登録">
 
-				<input type="hidden" name="teamId" th:value="${selectTeamId}">
-				<input type="hidden" name="selectTeamName" th:value="${selectTeam}">
+				<input type="hidden" name="teamId" th:value="${teamId}">
+				<input type="hidden" name="teamName" th:value="${teamName}">
 			</form>
 			<table>
 				<tr>
 					<th>Player Name</th>
+					<th>Player Num</th>
 				</tr>
 				<tr th:each="player : ${playerList}">
 					<td th:text="${player.playerName}"></td>
+					<td th:text="${player.playerNum}"></td>
 				</tr>
 			</table>
 			

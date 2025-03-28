@@ -5,20 +5,20 @@
 <title>マイページ</title>
 </head>
 <body>
-	<p><span th:text="${session.userDto.userName}"></span>さんこんにちは。</p>	
-	<div th:if="${session.userDto.favoriteTeamName != null}">
-		<p>今のお気に入りのチームは<span th:text="${session.userDto.favoriteTeamName}"></span>です</p>
+	<p><span th:text="${userSession.userName}"></span>さんこんにちは。</p>	
+	<div th:if="${userSession.favoriteTeamName != null}">
+		<p>今のお気に入りのチームは<span th:text="${userSession.favoriteTeamName}"></span>です</p>
 	</div>
 	<p>お気に入りチームを選択</p>
 	<div th:if="${favoriteMsg != null}">
 		<p th:text="${favoriteMsg}"></p>
 	</div>
-	<div th:if="${session.teamList != null}">
+	<div th:if="${teamListSession != null}">
 		<table>
 			<tr>
 				<th>チーム</th><th>選択する</th>
 			</tr>
-			<tr th:each="team : ${session.teamList}">
+			<tr th:each="team : ${teamListSession.teamList}">
 				<td th:text="${team.teamName}"></td>
 				<td>
 					<form th:action="@{/select-favorite}" method="post">

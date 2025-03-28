@@ -8,5 +8,6 @@ public class PlayerEntity {
 	private int playerId;
 	private int teamId;
 	private String playerName;
+	private int playerNum;
 	
 }

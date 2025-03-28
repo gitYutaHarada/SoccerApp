@@ -30,23 +30,25 @@ public class AdminEditPlayerController {
 	}
 	
 	@PostMapping("/select-team")
-	public String selectTeam(@RequestParam("selectTeam") String selectTeam, Model model) {
+	public String selectTeam(@RequestParam String teamName, Model model) {
 		
-		model.addAttribute("playerList", playerService.findPlayerByTeamName(selectTeam));
-		model.addAttribute("selectTeam", selectTeam);
-		model.addAttribute("selectTeamId", teamService.findTeamIdByName(selectTeam));
+		model.addAttribute("playerList", playerService.findPlayerByTeamName(teamName));
+		model.addAttribute("teamName", teamName);
+		model.addAttribute("teamId", teamService.findTeamIdByName(teamName));
 		model.addAttribute("action", "player");
 		return "admin-edit";
 	}
 	
 	@PostMapping("/create-player")
 	public String createPlayer(@ModelAttribute PlayerDto playerDto, 
-							   @RequestParam("selectTeamName") String selectTeamName, 
+							   @RequestParam String teamName, 
 							   Model model) {
 		
 		String msg = playerService.addPlayer(playerDto);
 		model.addAttribute("addPlayerMsg", msg);
-		model.addAttribute("playerList", playerService.findPlayerByTeamName(selectTeamName));
+		model.addAttribute("teamName", teamName);
+		model.addAttribute("teamId", teamService.findTeamIdByName(teamName));
+		model.addAttribute("playerList", playerService.findPlayerByTeamName(teamName));
 		model.addAttribute("action", "player");
 
 		return "admin-edit";

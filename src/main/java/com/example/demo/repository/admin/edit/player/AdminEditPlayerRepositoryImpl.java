@@ -38,6 +38,7 @@ public class AdminEditPlayerRepositoryImpl implements AdminEditPlayerRepository 
 			playerEntity.setPlayerId((int) player.get("player_id"));
 			playerEntity.setTeamId((int) player.get("team_id"));
 			playerEntity.setPlayerName((String) player.get("player_name"));
+			playerEntity.setPlayerNum((int)player.get("player_num"));
 			playerEntityList.add(playerEntity);
 		}
 
@@ -50,13 +51,40 @@ public class AdminEditPlayerRepositoryImpl implements AdminEditPlayerRepository 
 		if(countPlayer(playerDto) != 0 ) {
 			return "選択したチームの中にその名前の選手はもう存在しています";
 		}
-		String addPlayerSql = "INSERT INTO players (team_id, player_name) VALUES(?, ?)";
-		int addCount = jdbcTemplate.update(addPlayerSql, playerDto.getTeamId(), playerDto.getPlayerName());
+		
+		addPlayerRating(playerDto);
+		//選手追加
+		String addPlayerSql = "INSERT INTO players (team_id, player_name, player_num) VALUES(?, ?, ?)";
+		int addCount = jdbcTemplate.update(addPlayerSql, 
+										   playerDto.getTeamId(),
+										   playerDto.getPlayerName(), 
+										   playerDto.getPlayerNum());
 		if (addCount == 1) {
 			return "選手登録できました。";
 		}
 		
 		return "選手登録失敗しています。";
+	}
+	
+	//選手追加した際に、その選手が所属しているすべての試合に選手評価を追加する。
+	public void addPlayerRating(PlayerDto playerDto) {
+		
+		List<Integer> gamesForTeam = selectGameByTeam(playerDto.getTeamId());
+		String addPlayerRatingSql = "INSERT INTO player_game_ratings_avg "
+								  + "(game_id, player_id) VALUES (?, ?)";
+
+		for(int gameId : gamesForTeam) {
+			jdbcTemplate.update(addPlayerRatingSql, gameId, findPlayerId(playerDto));
+		}
+	}
+	
+	//その選手が所属しているteamがホームで参加した試合を全権取得
+	public List<Integer> selectGameByTeam(int teamId){
+		
+		String selectGameByPlayer = "SELECT game_id FROM games WHERE home_team_id = ?";
+		
+		return jdbcTemplate.queryForList(selectGameByPlayer, Integer.class, teamId);
+		
 	}
 
 	//teamに同じ名前の選手が何人いるかどうか確認

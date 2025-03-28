@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<div th:if="${session.gameDtoList != null}">
+	<div th:if="${gameListSession != null}">
 		<table>
 			<tr>
 				<th>ホームチーム</th>
@@ -15,7 +15,7 @@
 				<th>日時</th>
 				<th>スコア</th>
 			</tr>
-			<tr th:each="game : ${session.gameDtoList}">
+			<tr th:each="game : ${gameListSession.gameList}">
 				<div th:if="${game.gameId == gameId}">
 					<td th:text="${game.homeTeamName}"></td>
 					<td th:text="${game.awayTeamName}"></td>
@@ -33,7 +33,7 @@
 			<th>投稿時間</th>
 			<th>likes</th>
 		</tr>
-		<tr th:each="comment : ${session.commentsList}">
+		<tr th:each="comment : ${commentsListSession.commentList}">
 			<div th:if="${comment.gameId == gameId}">
 				<td th:text="${comment.commentContent}"></td>
 				<td th:text="${comment.userName}"></td>
@@ -64,13 +64,25 @@
 			<th>選手名</th>
 			<th>平均評価</th>
 		</tr>
-		<tr th:each=" rating : ${playerRatingAvgDtoList}">
+		<tr th:each=" rating : ${playerRatingAvgListSession.plaerRagingAvgList}">
 			<div th:if="${rating.gameId == gameId}">
 				<td th:text="${rating.playerName}"></td>
 				<td th:text="${rating.ratingAvg}"></td>
 			</div>
 		</tr>
 	</table>
+	<form th:action="@{/add-rating}" method="post">
+		<table>
+			<tr>
+				<th>選手名</th>
+				<th>あなたの評価（1~4）</th>
+			</tr>
+			<tr th:each=" player : ${playerList}">
+				<td th:text="${player.playerName}"></td>
+				<td><input type="number" name="yourRating" min="1" max="4" required></td>
+			</tr>
+		</table>
+	</form>
 
 </body>
 

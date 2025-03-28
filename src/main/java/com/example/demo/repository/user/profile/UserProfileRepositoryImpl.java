@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.repository.admin.edit.team.AdminEditTeamRepository;
+import com.example.demo.session.UserSession;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +19,14 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
 	private final AdminEditTeamRepository teamRepository;
 
 	@Override
-	public String addFavoriteTeam(String teamName, UserDto userDto) {
+	public String addFavoriteTeam(String teamName, UserSession userSession) {
 		int teamId = teamRepository.findTeamIdByName(teamName);
 		if(teamId == 0 || teamId == -1) {
 			return "このチームはお気に入りに登録できません。";
 		}
 		
 		String addFavoriteTeamSql = "UPDATE users SET favorite_team_id = ? WHERE user_id = ?";
-		int countSql = jdbcTemplate.update(addFavoriteTeamSql, teamId, userDto.getUserId());
+		int countSql = jdbcTemplate.update(addFavoriteTeamSql, teamId, userSession.getUserId());
 		if(countSql == 1) {
 			return "お気に入り登録できました";
 		}

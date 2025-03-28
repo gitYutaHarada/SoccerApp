@@ -7,12 +7,12 @@
 <body>
 	<div th:if="${selectTeamMsg != null}">
 		<p th:text="${selectTeamMsg}"></p>
-		<div th:if="${session.teamList != null}">
+		<div th:if="${teamListSession != null}">
 			<table>
 				<tr>
 					<th>チーム</th><th>選択する</th>
 				</tr>
-				<tr th:each="team : ${session.teamList}">
+				<tr th:each="team : ${teamListSession.teamList}">
 					<td th:text="${team.teamName}"></td>
 					<td>
 						<form th:action="@{/select-team-board}" method="post">
@@ -29,7 +29,7 @@
 			<tr>
 				<th>ホームチーム</th><th>アウェイチーム</th><th>日時</th><th>スコア</th><th>コメントを見る</th>
 			</tr>
-			<tr th:each="game : ${session.gameDtoList}">
+			<tr th:each="game : ${gameListSession.gameList}">
 				<div th:if="${game.homeTeamName == selectTeam}">
 					<td th:text="${game.homeTeamName}"></td>			
 					<td th:text="${game.awayTeamName}"></td>			

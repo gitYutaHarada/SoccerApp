@@ -16,9 +16,9 @@ public class GameRatingServiceImpl implements GameRatingService {
 	private final GameRatingRepository repository;
 
 	@Override
-	public List<PlayerRatingAvgDto> getGamePlayerRatingAvg() {
+	public List<PlayerRatingAvgDto> getGamePlayerRatingAvgDtoList() {
 		
-		return repository.getGamePlayerRatingAvg();
+		return repository.getGamePlayerRatingAvgDtoList();
 	}
 	
 	
